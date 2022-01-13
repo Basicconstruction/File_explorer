@@ -9,7 +9,10 @@ public class TestFileChild {
 //            ef.setLastModifiedTime();
 //            System.out.println(ef.getLastModifiedTime());
 //        }
+        EnhancedFile fc2 = new EnhancedFile("D:\\qt\\Examples");
         System.out.println(fc.getPropertyAboutDirectoryAndFileCount());
         System.out.println(new EnhancedFile("E:\\html").getSize());
+        System.out.println(fc2.getPropertyAboutDirectoryAndFileCount());
+        System.out.println(new EnhancedFile("D:\\qt\\Examples").getSize());
     }
 }

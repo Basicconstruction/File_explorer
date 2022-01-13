@@ -166,7 +166,8 @@ public class EnhancedFile extends File {
         };
     }
     /**
-     * 这个大小相当于window系统 对于某一文件属性下的大小,略小于window系统 对于某一文件属性下的 占用空间
+     * * 这个大小相当于window系统 对于某一文件属性下的大小,略小于window系统 对于某一文件属性下的 占用空间
+     * 展示数据时需要使用异步来进行操作
      * */
     public String getSize(){
         long bits = this.countSize();
@@ -185,9 +186,15 @@ public class EnhancedFile extends File {
             return fm.format(1.0f*bits/1024/1024/1024/1024/1024)+"Pb";
         }
     }
+    /**
+     * 展示数据时需要使用异步来进行操作
+     * */
     private long countSize(){
         return iteratorAllDirectoriesToCountLength(this);
     }
+    /**
+     * 展示数据时需要使用异步来进行操作
+     * */
     private long iteratorAllDirectoriesToCountLength(EnhancedFile ef){
         if(ef.isDirectory()){
             long length = 0;
@@ -201,6 +208,9 @@ public class EnhancedFile extends File {
             return ef.length();
         }
     }
+    /**
+     * 展示数据时需要使用异步来进行操作
+     * */
     public int[] countDirectoriesAndFilesCount(){
         int[] count = new int[2];
         iteratorAllDirectories(this,count);
@@ -209,6 +219,9 @@ public class EnhancedFile extends File {
         }
         return count;
     }
+    /**
+     * 展示数据时需要使用异步来进行操作
+     * */
     private void iteratorAllDirectories(EnhancedFile ef,int[] count){
         if(ef.isDirectory()){
             count[0] +=1;
@@ -221,6 +234,9 @@ public class EnhancedFile extends File {
             count[1] +=1;
         }
     }
+    /**
+     * 展示数据时需要使用异步来进行操作
+     * */
     public String getPropertyAboutDirectoryAndFileCount(){
         int[] count = countDirectoriesAndFilesCount();
         return count[0]+"个文件夹, "+count[1]+"个文件";
