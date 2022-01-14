@@ -1,3 +1,5 @@
+package filenormal;
+
 public enum FileSize {
     ExtremelySMall,//1b -1024b
     Small,//1k ~ 1M  1024b

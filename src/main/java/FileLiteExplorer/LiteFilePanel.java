@@ -1,5 +1,7 @@
 package FileLiteExplorer;
 
+import FileLiteExplorer.fileroot.FileRoot;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,6 +20,7 @@ public class LiteFilePanel extends JPanel {
         height = height_param;
         super.setPreferredSize(new Dimension(width,height));
         super.setSize(width,height);
+        setLayout(null);
     }
     public void setWidth(int width_param){
         this.width = width_param;
@@ -31,5 +34,9 @@ public class LiteFilePanel extends JPanel {
     }
     public void initWH(int width_param,int height_param){
         this.setSize(width_param,height_param);
+    }
+
+    public void repaintFileRoot(FileRoot fr) {
+
     }
 }

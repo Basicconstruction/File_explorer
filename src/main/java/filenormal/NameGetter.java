@@ -1,3 +1,5 @@
+package filenormal;
+
 import java.io.File;
 
 public class NameGetter {

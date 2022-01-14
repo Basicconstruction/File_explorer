@@ -3,6 +3,9 @@ package FileLiteExplorer;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * 可以添加在可改变大小的组件内
+ * */
 public class LiteFileExplorer extends JScrollPane{
     public JFrame parent;
     public LiteFilePanel child;//向上转型,不是必须的

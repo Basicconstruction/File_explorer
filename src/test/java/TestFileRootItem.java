@@ -6,19 +6,19 @@ import filenormal.FileType;
 
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
 
-
-public class TestLiteFileExplorer {
+public class TestFileRootItem {
     public static void main(String[] args) {
         FrameShow fm = new FrameShow();
         LiteFilePanel litePanel = new LiteFilePanel();
-        LiteFileExplorer liteExplorer = new LiteFileExplorer(fm,litePanel,200,400);
-        litePanel.setBackground(Color.PINK);
+        LiteFileExplorer liteExplorer = new LiteFileExplorer(fm,litePanel,300,400);
+//        litePanel.setBackground(Color.PINK);
+        System.out.println("ok");
+        litePanel.add(new FileRootItem(
+                new FileRoot("H:\\", FileType.DiskDrive),litePanel,0,0));
+        System.out.println("ok");
         fm.setComponentIn(liteExplorer);
         fm.setVisible(true);
-
-//        litePanel.setParentPane(liteExplorer);
-
+        System.out.println("ok");
     }
 }

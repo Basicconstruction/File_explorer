@@ -1,3 +1,5 @@
+package filenormal;
+
 public class FileIcon {
     public static String rel_path = "resources";
     public static String image = "iamge.png";
@@ -11,4 +13,6 @@ public class FileIcon {
     public static String text = "iamge.png";
     public static String special = "iamge.png";
     public static String adobeE = "iamge.png";
+    public static String bt1 = "bt1.png";
+    public static String bt2 = "bt2.png";
 }

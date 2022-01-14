@@ -1,9 +1,9 @@
+package filenormal;
+
 import Formatter.FloatFormatter;
 
 import java.io.File;
-import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -53,7 +53,7 @@ public class EnhancedFile extends File {
     public EnhancedFile[] getAllEnhancedFiles(){
         if(this.isDirectory()){
             EnhancedFile[] files = convertFileArrayIntoEnhancedFileArray(Objects.requireNonNull(this.listFiles()));
-//            for(EnhancedFile file:files){
+//            for(filenormal.EnhancedFile file:files){
 //                System.out.println(file);
 //            }
             return files;
@@ -154,6 +154,8 @@ public class EnhancedFile extends File {
         return switch (this.matchFileType()) {
             case Image -> FileIcon.image;
             case Music -> FileIcon.music;
+            case CurrentComputer -> null;
+            case DiskDrive -> null;
             case Video -> FileIcon.video;
             case Word -> FileIcon.word;
             case Excel -> FileIcon.excel;

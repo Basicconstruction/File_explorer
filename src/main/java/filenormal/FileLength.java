@@ -1,3 +1,5 @@
+package filenormal;
+
 public class FileLength {
     public static long ExtremelySmallSize = 1024;//max
     public static long SmallSize = 1024 * 1024;//max

@@ -1,4 +1,10 @@
+package filenormal;
+
+import java.awt.*;
+
 public enum FileType {
+    CurrentComputer,
+    DiskDrive,
     Video,
     Image,
     Txt,
