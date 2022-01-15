@@ -6,16 +6,17 @@ import filenormal.FileType;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class TestFileRootItem {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         FrameShow fm = new FrameShow();
         LiteFilePanel litePanel = new LiteFilePanel();
         LiteFileExplorer liteExplorer = new LiteFileExplorer(fm,litePanel,300,400);
 //        litePanel.setBackground(Color.PINK);
         System.out.println("ok");
         litePanel.add(new FileRootItem(
-                new FileRoot("H:\\", FileType.DiskDrive),litePanel,0,0));
+                new FileRoot("C:\\", FileType.DiskDrive,true),litePanel,0,0));
         System.out.println("ok");
         fm.setComponentIn(liteExplorer);
         fm.setVisible(true);
