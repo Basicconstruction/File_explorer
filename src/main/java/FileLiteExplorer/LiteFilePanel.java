@@ -19,6 +19,7 @@ public class LiteFilePanel extends JPanel {
     private FileRoot froot;
     private FileRootItem root;
     private int itemCount = 1;
+    private int defaultHeight = 0;
     public LiteFilePanel() throws FileNotFoundException {
         super();
         froot = new FileRoot("计算机", FileType.CurrentComputer,true);
@@ -27,6 +28,7 @@ public class LiteFilePanel extends JPanel {
     }
     public void setParentPane(LiteFileExplorer parent){
         this.parent = parent;
+        this.defaultHeight = this.getParentPane().height;
     }
     public void setViewExplorer(ViewExplorer ve){
         this.ve = ve;
@@ -55,24 +57,27 @@ public class LiteFilePanel extends JPanel {
     public void repaintFileRoot(FileRoot fr) {
 
     }
-
     public void repaintFileRoot() throws FileNotFoundException {
         int[] order = new int[]{0};
         this.removeAll();
+        root.syncRootItem();
         add(root);
         if(root.getFileRoot().explode){
-//            ArrayList<FileRoot> frs = new FileRoot("计算机",FileType.CurrentComputer,true).getChildFileRoot();
             ArrayList<FileRoot> frs = this.froot.getChildFileRoot();
             for(FileRoot f:frs){
                 FileRootItem fr = new FileRootItem(f,this,1,++order[0]);//for drive grade = 1
                 add(fr);
                 repaintFileRoot(fr,order);
-                System.out.println(fr.getFileRoot()+" "+fr.getFileRoot().getAbsolutePath());
             }
         }
         itemCount = order[0];
-        if(itemCount*28>height){
+        if(itemCount*28>defaultHeight){
             setSize(width,itemCount*28);
+        }else{
+            setSize(width,defaultHeight);
+        }
+        if(defaultHeight!=0){
+            this.getParentPane().syncFlowSpeed();
         }
         this.repaint();
 
@@ -83,7 +88,6 @@ public class LiteFilePanel extends JPanel {
             for(FileRoot f:frs){
                 FileRootItem fr = new FileRootItem(f,this,fri.getGrade()+1,++order[0]);
                 add(fr);
-//                System.out.println(fr.getFileRoot().getAbsolutePath());
                 repaintFileRoot(fr,order);
             }
         }
@@ -93,5 +97,8 @@ public class LiteFilePanel extends JPanel {
         if(ve!=null){
             ve.setViewPort(path);
         }
+    }
+    public LiteFileExplorer getParentPane(){
+        return this.parent;
     }
 }

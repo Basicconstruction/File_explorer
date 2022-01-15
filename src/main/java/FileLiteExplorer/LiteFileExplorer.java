@@ -20,6 +20,10 @@ public class LiteFileExplorer extends JScrollPane{
         super.setSize(width,height);
         super.setPreferredSize(new Dimension(width,height));
         setChildPanel(child);
+
+    }
+    public void syncFlowSpeed(){
+        this.getVerticalScrollBar().setUnitIncrement(getNewScrollSpeed ( child.getHeight() ));
     }
     public void setChildPanel(LiteFilePanel child){
         this.child = child;
@@ -30,5 +34,8 @@ public class LiteFileExplorer extends JScrollPane{
         if(this.child!=null){
             this.child.setSize(width_param,height_param);
         }
+    }
+    int getNewScrollSpeed( int scrollPaneHeight ){
+        return (int) ( scrollPaneHeight * 0.1 );
     }
 }

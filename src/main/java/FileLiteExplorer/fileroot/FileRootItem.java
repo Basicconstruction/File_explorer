@@ -14,6 +14,7 @@ public class FileRootItem extends JPanel {
     private int width;
     private int height;
     private JButton bt;
+    private JLabel fileIconLabel;
     private JLabel label;
     public FileRoot fr;
     private LiteFilePanel fp;
@@ -25,34 +26,58 @@ public class FileRootItem extends JPanel {
         this.fr = fr;
         this.GRADE = GRADE;
         this.componentOrder = componentOrder;
-        bt = new JButton(new ImageIcon(load+"resources\\bt1.png"));
-        label = new JLabel(fr.getName(),new ImageIcon(load+"resource\\bt2.png"), SwingConstants.LEFT);
-//        label = new JLabel(fr.getName(),JLabel.LEFT);
+        if(this.fr.explode){
+            bt = new JButton(new ImageIcon(load+"resources\\bt2.png"));
+        }else{
+            bt = new JButton(new ImageIcon(load+"resources\\bt1.png"));
+        }
+        label = new JLabel(fr.getName(),JLabel.LEFT);
         initComponent();
     }
     public int getGrade(){
         return this.GRADE;
+    }
+    public void syncRootItem(){
+        if(this.getFileRoot().explode){
+            bt.setIcon(new ImageIcon(load+"resources\\bt2.png"));
+        }else{
+            bt.setIcon(new ImageIcon(load+"resources\\bt1.png"));
+        }
+        this.setVisible(true);
     }
     public void initComponent() {
         this.setLayout(null);
         this.setLocation(offsetFactor*GRADE,componentOrder*28);
         this.setPreferredSize(new Dimension(214,28));
         this.setSize(214,28);
-        bt.setBounds(0,0,28,28);
-        label.setBounds(28,0,186,28);
-        this.add(bt);
-        this.add(label);
-        bt.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileRootItem.this.fr.setExplode(!FileRootItem.this.fr.explode);
-                try {
-                    FileRootItem.this.fp.repaintFileRoot();
-                } catch (FileNotFoundException ex) {
-                    ex.printStackTrace();
-                }
+        if(this.getFileRoot().getScalable()){
+            try{
+                System.out.println(this.getFileRoot().getAbsolutePath());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        });
+            bt.setBounds(2,2,24,24);
+            label.setBounds(56,0,158,28);
+            this.add(bt);
+            this.add(label);
+            bt.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    FileRootItem.this.fr.setExplode(!FileRootItem.this.fr.explode);
+                    try {
+                        FileRootItem.this.fp.repaintFileRoot();
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+        }else{
+            label.setBounds(56,0,158,28);
+            this.add(label);
+        }
+        fileIconLabel = new JLabel(new ImageIcon(load+"resources\\file.png"));
+        this.add(fileIconLabel);
+        fileIconLabel.setBounds(30,4,24,20);
         label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

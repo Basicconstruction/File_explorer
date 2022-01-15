@@ -25,15 +25,31 @@ public class FileRoot {
         sharedConstruct(initializedWhenConstruct);
         hasBeenInit = initializedWhenConstruct;
     }
+    public boolean getScalable(){
+        sharedConstruct(true);
+//        return this.scalable;
+        return this.scalable;
+    }
     public ArrayList<FileRoot> getChildFileRoot(){
         if(!hasBeenInit){
-            this.frs.clear();
             sharedConstruct(true);
         }
         return this.frs;
     }
     public FileType dragFileType(){
         return this.ft;
+    }
+    private boolean exists(String path){
+        for(FileRoot file:frs){
+            try{
+                if(file.getAbsolutePath().equals(path)){
+                    return true;
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
     public void sharedConstruct(boolean initialized){
         if(initialized){
@@ -43,8 +59,11 @@ public class FileRoot {
                 if(fs!=null){
                     for(File f1:fs){
                         if(f1.isDirectory()){
-                            frs.add(new FileRoot(f1,FileType.Directory,false));
+                            if(!this.exists(f1.getAbsolutePath())){
+                                frs.add(new FileRoot(f1,FileType.Directory,false));
+                            }
                             scalable = true;
+                            System.out.println(f1.getAbsolutePath());
                         }
                     }
                     if(frs.size()<1){
@@ -65,8 +84,8 @@ public class FileRoot {
     }
     public void setExplode(boolean explode){
         this.explode = explode;
-        if(explode){
-            sharedConstruct(true);//this ever cause many bug
+        if(explode&&(!hasBeenInit)){
+            sharedConstruct(true);// 如何处理此处的逻辑影响比较大
         }
     }
     public String getName(){
