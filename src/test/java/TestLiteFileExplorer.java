@@ -1,14 +1,8 @@
 import FileLiteExplorer.LiteFileExplorer;
 import FileLiteExplorer.LiteFilePanel;
-import FileLiteExplorer.fileroot.FileRoot;
-import FileLiteExplorer.fileroot.FileRootItem;
-import filenormal.FileType;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.concurrent.SynchronousQueue;
 
 
 public class TestLiteFileExplorer {

@@ -1,6 +1,7 @@
 package FileLiteExplorer.fileroot;
 
 import FileLiteExplorer.LiteFilePanel;
+import filenormal.FileType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +34,7 @@ public class FileRootItem extends JPanel {
         }
         label = new JLabel(fr.getName(),JLabel.LEFT);
         initComponent();
+        this.fr.setFileRootItem(this);
     }
     public int getGrade(){
         return this.GRADE;
@@ -51,11 +53,6 @@ public class FileRootItem extends JPanel {
         this.setPreferredSize(new Dimension(214,28));
         this.setSize(214,28);
         if(this.getFileRoot().getScalable()){
-            try{
-                System.out.println(this.getFileRoot().getAbsolutePath());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
             bt.setBounds(2,2,24,24);
             label.setBounds(56,0,158,28);
             this.add(bt);
@@ -75,14 +72,22 @@ public class FileRootItem extends JPanel {
             label.setBounds(56,0,158,28);
             this.add(label);
         }
-        fileIconLabel = new JLabel(new ImageIcon(load+"resources\\file.png"));
+        if(this.getFileRoot().getFileType()== FileType.CurrentComputer){
+            fileIconLabel = new JLabel(new ImageIcon(load+"resources/computer.png"));
+        }else if(this.getFileRoot().getFileType()== FileType.DiskDrive){
+            fileIconLabel = new JLabel(new ImageIcon(load+"resources/disk.png"));
+        }else{
+            fileIconLabel = new JLabel(new ImageIcon(load+"resources/file.png"));
+        }
+//        System.out.println(this.getFileRoot().getFileType());
         this.add(fileIconLabel);
         fileIconLabel.setBounds(30,4,24,20);
-        label.addMouseListener(new MouseListener() {
+        MouseListener ml = new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent e) {
+                FileRootItem.this.setFocused();
                 try {
-                    FileRootItem.this.fp.syncViewPort(FileRootItem.this.fr.getAbsolutePath());
+                    FileRootItem.this.fp.syncLocationPanel(FileRootItem.this.fr.getAbsolutePath());
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
@@ -107,9 +112,21 @@ public class FileRootItem extends JPanel {
             public void mouseExited(MouseEvent e) {
 
             }
-        });
+        }   ;
+        label.addMouseListener(ml);
+        this.addMouseListener(ml);
     }
     public FileRoot getFileRoot(){
         return this.fr;
+    }
+    public void setFocused(){
+        this.setBackground(Color.GRAY);
+        this.getParentPanel().setFocusFileRoot(this.getFileRoot());
+    }
+    public LiteFilePanel getParentPanel(){
+        return this.fp;
+    }
+    private void revertFocused(){
+        this.setBackground(Color.WHITE);
     }
 }

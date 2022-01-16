@@ -8,17 +8,17 @@ import viewexploer.ViewExplorer;
 import javax.swing.*;
 import javax.swing.text.View;
 import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class LiteFilePanel extends JPanel {
     public LiteFileExplorer parent;
+    private FileRoot focus;
     public int width = 0;
     public int height = 0;
-    public ViewExplorer ve;
-    private FileRoot froot;
-    private FileRootItem root;
-    private int itemCount = 1;
+    private final FileRoot froot;
+    private final FileRootItem root;
     private int defaultHeight = 0;
     public LiteFilePanel() throws FileNotFoundException {
         super();
@@ -26,12 +26,24 @@ public class LiteFilePanel extends JPanel {
         root = new FileRootItem(froot,this,0,0);
         repaintFileRoot();
     }
+    public void setFocusFileRoot(FileRoot focus){
+        if(this.focus==null){
+            this.focus = focus;
+        }else{
+            if(this.focus!=focus){
+                this.focus.getFileRootItem().setBackground(this.getBackground());
+                this.focus = focus;
+            }
+        }
+
+
+    }
+    public FileRoot getFocusFileRoot(){
+        return this.focus;
+    }
     public void setParentPane(LiteFileExplorer parent){
         this.parent = parent;
         this.defaultHeight = this.getParentPane().height;
-    }
-    public void setViewExplorer(ViewExplorer ve){
-        this.ve = ve;
     }
     public void setSize(int width_param,int height_param){
         width = width_param;
@@ -66,13 +78,16 @@ public class LiteFilePanel extends JPanel {
             ArrayList<FileRoot> frs = this.froot.getChildFileRoot();
             for(FileRoot f:frs){
                 FileRootItem fr = new FileRootItem(f,this,1,++order[0]);//for drive grade = 1
+                if(f==this.focus){
+                    fr.setFocused();
+                }
                 add(fr);
                 repaintFileRoot(fr,order);
             }
         }
-        itemCount = order[0];
-        if(itemCount*28>defaultHeight){
-            setSize(width,itemCount*28);
+        int itemCount = order[0];
+        if(itemCount *28>defaultHeight){
+            setSize(width, itemCount *28);
         }else{
             setSize(width,defaultHeight);
         }
@@ -88,15 +103,16 @@ public class LiteFilePanel extends JPanel {
             for(FileRoot f:frs){
                 FileRootItem fr = new FileRootItem(f,this,fri.getGrade()+1,++order[0]);
                 add(fr);
+                if(f==this.focus){
+                    fr.setFocused();
+                }
                 repaintFileRoot(fr,order);
             }
         }
 
     }
-    public void syncViewPort(String path){
-        if(ve!=null){
-            ve.setViewPort(path);
-        }
+    public void syncLocationPanel(String path){
+
     }
     public LiteFileExplorer getParentPane(){
         return this.parent;

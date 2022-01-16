@@ -12,6 +12,7 @@ public class FileRoot {
     public boolean explode = false;
     public boolean scalable;
     private boolean hasBeenInit;
+    private FileRootItem fri;
     public ArrayList<FileRoot> frs = new ArrayList<FileRoot>();
     public FileRoot(String path,FileType ft,boolean initializedWhenConstruct){
         this.file = new File(path);
@@ -63,7 +64,7 @@ public class FileRoot {
                                 frs.add(new FileRoot(f1,FileType.Directory,false));
                             }
                             scalable = true;
-                            System.out.println(f1.getAbsolutePath());
+//                            System.out.println(f1.getAbsolutePath());
                         }
                     }
                     if(frs.size()<1){
@@ -104,9 +105,9 @@ public class FileRoot {
         throw new FileNotFoundException(this.file.getAbsolutePath());
     }
     public static FileType getFileType(String file){
-        if(file.length()<=3&&file.charAt(0)==':'){
+        if(file.length()<=3&&file.charAt(1)==':'){
             return FileType.DiskDrive;
-        }else if(file.length()<=3){
+        }else if(file.length()<=4){
             return FileType.CurrentComputer;
         }else{
             if(new File(file).isDirectory()){
@@ -118,7 +119,17 @@ public class FileRoot {
 
         }
     }
+    public FileType getFileType(){
+        return this.ft;
+    }
     public static FileType getFileType(File file){
         return getFileType(file.getAbsolutePath());
     }
+    public FileRootItem getFileRootItem(){
+        return this.fri;
+    }
+    public void setFileRootItem(FileRootItem fri){
+        this.fri = fri;
+    }
+
 }

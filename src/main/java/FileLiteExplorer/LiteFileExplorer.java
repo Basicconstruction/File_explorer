@@ -1,5 +1,7 @@
 package FileLiteExplorer;
 
+import boostup.FileExplorer;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +13,8 @@ public class LiteFileExplorer extends JScrollPane{
     public LiteFilePanel child;//向上转型,不是必须的
     public int width;
     public int height;
+    public final static int defaultWidth = 160;
+    public final static int defaultHeight = 530;
     public LiteFileExplorer(JFrame parent,LiteFilePanel child,int width,int height){
         super(child,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -37,5 +41,8 @@ public class LiteFileExplorer extends JScrollPane{
     }
     int getNewScrollSpeed( int scrollPaneHeight ){
         return (int) ( scrollPaneHeight * 0.1 );
+    }
+    public FileExplorer getParentFrame(){
+        return (FileExplorer)this.parent;
     }
 }
