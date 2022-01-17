@@ -8,7 +8,6 @@ public class ViewExplorerController implements Controller{
     private ViewHolder viewHolder;
     public ViewExplorerController(String type){
         ViewHolder viewHolder = new NormalBigIconViewHolder();
-//        System.out.println(viewHolder);
         ((NormalBigIconViewHolder) viewHolder).setPanelSize(LiteViewExplorer.defaultWidth, LiteViewExplorer.defaultHeight);
         LiteViewExplorer lfe = new LiteViewExplorer(this.getParentFrame(),viewHolder,910,530);
         setLiteViewExplorer(lfe);

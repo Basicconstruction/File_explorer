@@ -16,7 +16,6 @@ import static viewexploer.LiteViewExplorer.defaultHeight;
 
 public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
     private int x_gap;
-    private int y_gap;
     private static final int defaultXGap = 7;
     private int c;
     private int width;
@@ -71,25 +70,19 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
             ((LiteViewExplorer)( this.getParentPane())).syncFlowSpeed();
             System.out.println("paint well");
         }
-
     }
-
 
     public void repaintView(File f) {
         repaintView(f.getAbsolutePath());
     }
 
-
     public int registeringX(int order) {
         return (defaultItemWidth+x_gap)*((order)%c)+x_gap;
     }
 
-
     public int registeringY(int order) {
         return defaultItemHeight*(order/c);
     }
-
-
 
     public int getItemWidth() {
         return defaultItemWidth;

@@ -19,8 +19,6 @@ public class LocationSearchControl extends JPanel {
         SearchPanel sp = new SearchPanel();
         lop.setLocation(new Point(10,20));
         sp.setLocation(new Point(560,20));
-//        lop.setBackground(Color.PINK);
-//        sp.setBackground(Color.LIGHT_GRAY);
         setLocationPanel(lop);
         setSearchPanel(sp);
         this.sp = sp;
