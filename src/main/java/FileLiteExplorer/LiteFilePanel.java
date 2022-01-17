@@ -3,7 +3,6 @@ package FileLiteExplorer;
 import FileLiteExplorer.fileroot.FileRoot;
 import FileLiteExplorer.fileroot.FileRootItem;
 import filenormal.FileType;
-import viewexploer.ViewExplorer;
 
 import javax.swing.*;
 import javax.swing.text.View;
@@ -51,16 +50,6 @@ public class LiteFilePanel extends JPanel {
         super.setPreferredSize(new Dimension(width,height));
         super.setSize(width,height);
         setLayout(null);
-    }
-    public void setWidth(int width_param){
-        this.width = width_param;
-        super.setSize(width,height);
-        super.setPreferredSize(new Dimension(width,height));
-    }
-    public void setHeight(int height_param){
-        this.height = height_param;
-        super.setSize(width,height);
-        super.setPreferredSize(new Dimension(width,height));
     }
     public void initWH(int width_param,int height_param){
         this.setSize(width_param,height_param);
@@ -112,7 +101,8 @@ public class LiteFilePanel extends JPanel {
 
     }
     public void syncLocationPanel(String path){
-
+        this.getParentPane().getParentFrame().
+                getLocationSearchControl().getLocationPanel().syncViewPort(path);
     }
     public LiteFileExplorer getParentPane(){
         return this.parent;

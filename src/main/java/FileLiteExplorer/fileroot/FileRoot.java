@@ -26,6 +26,12 @@ public class FileRoot {
         sharedConstruct(initializedWhenConstruct);
         hasBeenInit = initializedWhenConstruct;
     }
+    public FileRoot(String path,FileType ft){
+        this.file = new File(path);
+        this.ft = ft;
+        sharedConstruct();
+        hasBeenInit = true;
+    }
     public boolean getScalable(){
         sharedConstruct(true);
 //        return this.scalable;
@@ -79,6 +85,32 @@ public class FileRoot {
                     if(f1.exists()){
                         frs.add(new FileRoot(f1,FileType.DiskDrive,false));
                     }
+                }
+            }
+        }
+    }
+    public void sharedConstruct(){
+        hasBeenInit = true;
+        if(this.ft==FileType.DiskDrive||this.ft==FileType.Directory){
+            File[] fs = file.listFiles();
+            if(fs!=null){
+                for(File f1:fs){
+                    if(!this.exists(f1.getAbsolutePath())){
+                        frs.add(new FileRoot(f1,FileType.Directory,false));
+                    }
+                    scalable = true;
+                }
+                if(frs.size()<1){
+                    scalable = false;
+                }
+            }
+        }else if(this.ft == FileType.CurrentComputer){
+            this.frs.clear();
+            this.scalable = true;
+            for(char c = 'C';c<='Z';c++){
+                File f1 = new File(c+":\\");
+                if(f1.exists()){
+                    frs.add(new FileRoot(f1,FileType.DiskDrive,false));
                 }
             }
         }

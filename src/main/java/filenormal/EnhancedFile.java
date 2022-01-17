@@ -53,9 +53,6 @@ public class EnhancedFile extends File {
     public EnhancedFile[] getAllEnhancedFiles(){
         if(this.isDirectory()){
             EnhancedFile[] files = convertFileArrayIntoEnhancedFileArray(Objects.requireNonNull(this.listFiles()));
-//            for(filenormal.EnhancedFile file:files){
-//                System.out.println(file);
-//            }
             return files;
         }else{
             return null;

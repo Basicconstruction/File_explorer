@@ -1,37 +1,76 @@
 package controller;
 
+import FileLiteExplorer.fileroot.FileRoot;
 import boostup.FileExplorer;
-import viewexploer.ViewExplorer;
+import filenormal.FileType;
+import viewexploer.NormalBigIconViewHolder;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class LocationPanel extends JPanel {
     private final int defaultWidth = 543;
     private final int defaultHeight = 36;
-    private JFrame parent;
-    public ViewExplorer ve;
+    private int width;
+    private int height;
+    private LocationSearchControl lsc;
+    private NormalBigIconViewHolder viewHolder;
+    private JLabel explorerPath;
     public LocationPanel() {
         super();
+        this.setSize(defaultWidth,defaultHeight);
+        explorerPath = new JLabel("计算机");
+        setLayout(null);
+        explorerPath.setBounds(0,0,getWidth(),getHeight());
+        add(explorerPath);
     }
     public void syncViewPort(String path){
-        if(ve!=null){
-            ve.setViewPort(path);
-        }
-    }
-    public void setViewExplorer(ViewExplorer ve){
-        this.ve = ve;
-    }
-    public ViewExplorer getViewExplorer(){
-        if(this.ve==null){
-            return ((FileExplorer)(this.getParentFrame())).getViewExplorer();
+        explorerPath.setText(FileRoot.getFileType(path)== FileType.CurrentComputer?"计算机":path);
+        if(viewHolder!=null){
+            viewHolder.repaintView(path);
         }else{
-            return this.ve;
+            this.viewHolder = this.getViewHolder();
+            this.viewHolder.repaintView(path);
+        }
+
+    }
+    public void syncViewPort(String path,boolean boot){
+        explorerPath.setText(FileRoot.getFileType(path)== FileType.CurrentComputer?"计算机":path);
+    }
+    public void setViewHolder(NormalBigIconViewHolder viewHolder){
+        this.viewHolder = viewHolder;
+    }
+    public NormalBigIconViewHolder getViewHolder(){
+        if(this.viewHolder==null){
+            return (NormalBigIconViewHolder) ((FileExplorer)(this.getLocationSearchControl().getParentFrame()))
+                    .getViewExplorerController().getViewHolder();
+        }else{
+            return this.viewHolder;
         }
     }
-    public void setParentFrame(JFrame parent){
-        this.parent = parent;;
+    public LocationSearchControl getLocationSearchControl() {
+        return lsc;
     }
-    public JFrame getParentFrame(){
-        return this.parent;
+
+    public void setLocationSearchControl(LocationSearchControl lsc) {
+        this.lsc = lsc;
+    }
+    @Override
+    public void setSize(int width_param,int height_param){
+        width = width_param;
+        height = height_param;
+        super.setPreferredSize(new Dimension(width,height));
+        super.setSize(width,height);
+        setLayout(null);
+    }
+    public void setWidth(int width_param){
+        this.width = width_param;
+        super.setSize(width,height);
+        super.setPreferredSize(new Dimension(width,height));
+    }
+    public void setHeight(int height_param){
+        this.height = height_param;
+        super.setSize(width,height);
+        super.setPreferredSize(new Dimension(width,height));
     }
 }

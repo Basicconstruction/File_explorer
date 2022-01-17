@@ -28,9 +28,9 @@ public class FileRootItem extends JPanel {
         this.GRADE = GRADE;
         this.componentOrder = componentOrder;
         if(this.fr.explode){
-            bt = new JButton(new ImageIcon(load+"resources\\bt2.png"));
+            bt = new JButton(new ImageIcon(load+"bt2.png"));
         }else{
-            bt = new JButton(new ImageIcon(load+"resources\\bt1.png"));
+            bt = new JButton(new ImageIcon(load+"bt1.png"));
         }
         label = new JLabel(fr.getName(),JLabel.LEFT);
         initComponent();
@@ -41,9 +41,9 @@ public class FileRootItem extends JPanel {
     }
     public void syncRootItem(){
         if(this.getFileRoot().explode){
-            bt.setIcon(new ImageIcon(load+"resources\\bt2.png"));
+            bt.setIcon(new ImageIcon(load+"bt2.png"));
         }else{
-            bt.setIcon(new ImageIcon(load+"resources\\bt1.png"));
+            bt.setIcon(new ImageIcon(load+"bt1.png"));
         }
         this.setVisible(true);
     }
@@ -73,13 +73,12 @@ public class FileRootItem extends JPanel {
             this.add(label);
         }
         if(this.getFileRoot().getFileType()== FileType.CurrentComputer){
-            fileIconLabel = new JLabel(new ImageIcon(load+"resources/computer.png"));
+            fileIconLabel = new JLabel(new ImageIcon(load+"computer.png"));
         }else if(this.getFileRoot().getFileType()== FileType.DiskDrive){
-            fileIconLabel = new JLabel(new ImageIcon(load+"resources/disk.png"));
+            fileIconLabel = new JLabel(new ImageIcon(load+"disk.png"));
         }else{
-            fileIconLabel = new JLabel(new ImageIcon(load+"resources/file.png"));
+            fileIconLabel = new JLabel(new ImageIcon(load+"file.png"));
         }
-//        System.out.println(this.getFileRoot().getFileType());
         this.add(fileIconLabel);
         fileIconLabel.setBounds(30,4,24,20);
         MouseListener ml = new MouseListener(){
@@ -87,7 +86,11 @@ public class FileRootItem extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 FileRootItem.this.setFocused();
                 try {
-                    FileRootItem.this.fp.syncLocationPanel(FileRootItem.this.fr.getAbsolutePath());
+                    if(FileRootItem.this.getFileRoot().getFileType()== FileType.CurrentComputer){
+                        FileRootItem.this.fp.syncLocationPanel("计算机");
+                    }else{
+                        FileRootItem.this.fp.syncLocationPanel(FileRootItem.this.fr.getAbsolutePath());
+                    }
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }

@@ -1,6 +1,7 @@
 package FileLiteExplorer;
 
 import boostup.FileExplorer;
+import viewexploer.NormalBigIconViewHolder;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +27,16 @@ public class LiteFileExplorer extends JScrollPane{
         setChildPanel(child);
 
     }
+    public LiteFileExplorer(JFrame parent, NormalBigIconViewHolder child, int width, int height){
+        super(child,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        this.width = width;
+        this.height = height;
+        this.parent = parent;
+        super.setSize(width,height);
+        super.setPreferredSize(new Dimension(width,height));
+
+    }
     public void syncFlowSpeed(){
         this.getVerticalScrollBar().setUnitIncrement(getNewScrollSpeed ( child.getHeight() ));
     }
@@ -44,5 +55,8 @@ public class LiteFileExplorer extends JScrollPane{
     }
     public FileExplorer getParentFrame(){
         return (FileExplorer)this.parent;
+    }
+    public void setParentFrame(JFrame parent){
+        this.parent = parent;
     }
 }
