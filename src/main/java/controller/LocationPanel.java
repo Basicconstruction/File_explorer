@@ -2,6 +2,7 @@ package controller;
 
 import FileLiteExplorer.fileroot.FileRoot;
 import boostup.FileExplorer;
+import boostup.RelationHandler;
 import filenormal.FileType;
 import viewexploer.NormalBigIconViewHolder;
 
@@ -16,8 +17,10 @@ public class LocationPanel extends JPanel {
     private LocationSearchControl lsc;
     private NormalBigIconViewHolder viewHolder;
     private JLabel explorerPath;
-    public LocationPanel() {
+    private final RelationHandler handler;
+    public LocationPanel(RelationHandler handler) {
         super();
+        this.handler = handler;
         this.setSize(defaultWidth,defaultHeight);
         explorerPath = new JLabel("计算机");
         setLayout(null);
@@ -42,11 +45,13 @@ public class LocationPanel extends JPanel {
     }
     public NormalBigIconViewHolder getViewHolder(){
         if(this.viewHolder==null){
-            return (NormalBigIconViewHolder) ((FileExplorer)(this.getLocationSearchControl().getParentFrame()))
-                    .getViewExplorerController().getViewHolder();
+            return this.getHandler().getNormalBigIconViewHolder();
         }else{
             return this.viewHolder;
         }
+    }
+    private RelationHandler getHandler() {
+        return handler;
     }
     public LocationSearchControl getLocationSearchControl() {
         return lsc;

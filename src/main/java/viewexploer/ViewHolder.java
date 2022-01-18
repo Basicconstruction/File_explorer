@@ -20,8 +20,6 @@ public interface ViewHolder {
     void setParentPane(JScrollPane jsp);
     JScrollPane getParentPane();
     void setSize(int width_param,int height_param);
-    void setController(Controller controller);
-    Controller getController();
     int getHeight();
     void notifyViewChanged(String path);
 }

@@ -1,6 +1,7 @@
 package FileLiteExplorer;
 
 import boostup.FileExplorer;
+import boostup.RelationHandler;
 import viewexploer.NormalBigIconViewHolder;
 
 import javax.swing.*;
@@ -10,39 +11,32 @@ import java.awt.*;
  * 可以添加在可改变大小的组件内
  * */
 public class LiteFileExplorer extends JScrollPane{
-    public JFrame parent;
+    private final RelationHandler handler;
+    public RelationHandler getHandler() {
+        return handler;
+    }
+
     public LiteFilePanel child;//向上转型,不是必须的
     public int width;
     public int height;
     public final static int defaultWidth = 160;
     public final static int defaultHeight = 530;
-    public LiteFileExplorer(JFrame parent,LiteFilePanel child,int width,int height){
+    public LiteFileExplorer(RelationHandler handler,LiteFilePanel child){
         super(child,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        this.width = width;
-        this.height = height;
-        this.parent = parent;
-        super.setSize(width,height);
-        super.setPreferredSize(new Dimension(width,height));
+        this.handler = handler;
+        super.setSize(defaultWidth,defaultHeight);
+        super.setPreferredSize(new Dimension(defaultWidth,defaultHeight));
+        this.width = defaultWidth;
+        this.height = defaultHeight;
         setChildPanel(child);
-
-    }
-    public LiteFileExplorer(JFrame parent, NormalBigIconViewHolder child, int width, int height){
-        super(child,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        this.width = width;
-        this.height = height;
-        this.parent = parent;
-        super.setSize(width,height);
-        super.setPreferredSize(new Dimension(width,height));
-
     }
     public void syncFlowSpeed(){
         this.getVerticalScrollBar().setUnitIncrement(getNewScrollSpeed ( child.getHeight() ));
     }
     public void setChildPanel(LiteFilePanel child){
         this.child = child;
-        child.initWH(this.width,this.height);
+        child.initWH(defaultWidth,defaultHeight);
         this.child.setParentPane(this);
     }
     public void appriseChildPanelChangeSize(int width_param,int height_param){
@@ -53,10 +47,5 @@ public class LiteFileExplorer extends JScrollPane{
     int getNewScrollSpeed( int scrollPaneHeight ){
         return (int) ( scrollPaneHeight * 0.1 );
     }
-    public FileExplorer getParentFrame(){
-        return (FileExplorer)this.parent;
-    }
-    public void setParentFrame(JFrame parent){
-        this.parent = parent;
-    }
+
 }

@@ -1,5 +1,7 @@
 package controller;
 
+import boostup.RelationHandler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,13 +12,14 @@ public class LocationSearchControl extends JPanel {
     private final int defaultHeight = 76;
     private int width;
     private int height;
-    private JFrame parent;
-    public LocationSearchControl(){
+    private final RelationHandler handler;
+    public LocationSearchControl(RelationHandler handler){
         super();
         setLayout(null);
+        this.handler = handler;
         setSize(defaultWidth, defaultHeight);
-        LocationPanel lop = new LocationPanel();
-        SearchPanel sp = new SearchPanel();
+        LocationPanel lop = new LocationPanel(this.getHandler());
+        SearchPanel sp = new SearchPanel(this.getHandler());
         lop.setLocation(new Point(10,20));
         sp.setLocation(new Point(560,20));
         setLocationPanel(lop);
@@ -25,6 +28,11 @@ public class LocationSearchControl extends JPanel {
         add(lop);
         add(sp);
     }
+
+    private RelationHandler getHandler() {
+        return handler;
+    }
+
     public LocationPanel getLocationPanel() {
         return lop;
     }
@@ -41,14 +49,6 @@ public class LocationSearchControl extends JPanel {
     public void setSearchPanel(SearchPanel sp) {
         this.sp = sp;
         this.sp.setLocationSearchControl(this);
-    }
-
-    public JFrame getParentFrame() {
-        return parent;
-    }
-
-    public void setParentFrame(JFrame parent) {
-        this.parent = parent;
     }
     @Override
     public void setSize(int width_param,int height_param){

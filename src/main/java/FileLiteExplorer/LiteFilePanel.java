@@ -2,6 +2,7 @@ package FileLiteExplorer;
 
 import FileLiteExplorer.fileroot.FileRoot;
 import FileLiteExplorer.fileroot.FileRootItem;
+import boostup.RelationHandler;
 import filenormal.FileType;
 
 import javax.swing.*;
@@ -9,9 +10,15 @@ import javax.swing.text.View;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class LiteFilePanel extends JPanel {
+    private final RelationHandler handler;
+
+    public RelationHandler getHandler() {
+        return handler;
+    }
     public LiteFileExplorer parent;
     private FileRoot focus;
     public int width = 0;
@@ -19,8 +26,9 @@ public class LiteFilePanel extends JPanel {
     private final FileRoot froot;
     private final FileRootItem root;
     private int defaultHeight = 0;
-    public LiteFilePanel() throws FileNotFoundException {
+    public LiteFilePanel(RelationHandler handler) throws FileNotFoundException {
         super();
+        this.handler = handler;
         froot = new FileRoot("计算机", FileType.CurrentComputer,true);
         root = new FileRootItem(froot,this,0,0);
         repaintFileRoot();
@@ -34,7 +42,6 @@ public class LiteFilePanel extends JPanel {
                 this.focus = focus;
             }
         }
-
 
     }
     public FileRoot getFocusFileRoot(){
@@ -75,11 +82,7 @@ public class LiteFilePanel extends JPanel {
             }
         }
         int itemCount = order[0];
-        if(itemCount *28>defaultHeight){
-            setSize(width, itemCount *28);
-        }else{
-            setSize(width,defaultHeight);
-        }
+        setSize(width, Math.max(itemCount * 28, defaultHeight));
         if(defaultHeight!=0){
             this.getParentPane().syncFlowSpeed();
         }
@@ -101,8 +104,7 @@ public class LiteFilePanel extends JPanel {
 
     }
     public void syncLocationPanel(String path){
-        this.getParentPane().getParentFrame().
-                getLocationSearchControl().getLocationPanel().syncViewPort(path);
+        this.getHandler().getLocationPanel().syncViewPort(path);
     }
     public LiteFileExplorer getParentPane(){
         return this.parent;

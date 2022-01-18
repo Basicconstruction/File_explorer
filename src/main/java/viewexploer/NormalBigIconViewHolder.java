@@ -2,6 +2,7 @@ package viewexploer;
 
 import FileLiteExplorer.fileroot.FileRoot;
 import boostup.FileExplorer;
+import boostup.RelationHandler;
 import filenormal.EnhancedFile;
 import filenormal.FileType;
 import viewexploer.FileItem.NormalItem;
@@ -24,12 +25,19 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
     private JScrollPane jsp;
     public final int defaultItemWidth = 108;
     public final int defaultItemHeight = 118;
-    private Controller controller;
-    public NormalBigIconViewHolder(){
-        super();
+    private final RelationHandler handler;
+
+    public RelationHandler getHandler() {
+        return handler;
     }
-    public NormalBigIconViewHolder(String path){
+
+    public NormalBigIconViewHolder(RelationHandler handler){
         super();
+        this.handler = handler;
+    }
+    public NormalBigIconViewHolder(RelationHandler handler,String path){
+        super();
+        this.handler = handler;
     }
     public void repaintView(String path) {
         repaintView(new FileRoot(path,FileRoot.getFileType(path)));
@@ -41,8 +49,7 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
     @Override
     public void notifyViewChanged(String path) {
         repaintView(path);
-        ((FileExplorer)(this.getController().getParentFrame())).
-                getLocationSearchControl().getLocationPanel().syncViewPort(path,false);
+        this.getHandler().getLocationPanel().syncViewPort(path,false);
     }
 
     public void repaintView(FileRoot fr) {
@@ -139,11 +146,5 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
         setPreferredSize(new Dimension(width,height));
         setSize(width,height);
         setLayout(null);
-    }
-    public void setController(Controller controller){
-        this.controller = controller;
-    }
-    public Controller getController(){
-        return this.controller;
     }
 }
