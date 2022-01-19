@@ -31,6 +31,7 @@ public class LiteFilePanel extends JPanel {
         this.handler = handler;
         froot = new FileRoot("计算机", FileType.CurrentComputer,true);
         root = new FileRootItem(froot,this,0,0);
+        root.getFileRoot().setExplode(true);
         repaintFileRoot();
     }
     public void setFocusFileRoot(FileRoot focus){

@@ -15,5 +15,6 @@ public enum FileType {
     Music,
     AdobeE,
     Special,
-    PPT
+    PPT,
+    Exe
 }

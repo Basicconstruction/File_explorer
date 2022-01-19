@@ -34,7 +34,6 @@ public class FileRoot {
     }
     public boolean getScalable(){
         sharedConstruct(true);
-//        return this.scalable;
         return this.scalable;
     }
     public ArrayList<FileRoot> getChildFileRoot(){
@@ -46,17 +45,17 @@ public class FileRoot {
     public FileType dragFileType(){
         return this.ft;
     }
-    private boolean exists(String path){
+    private boolean shouldBeInclude(String path){
         for(FileRoot file:frs){
             try{
                 if(file.getAbsolutePath().equals(path)){
-                    return true;
+                    return false;
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
     public void sharedConstruct(boolean initialized){
         if(initialized){
@@ -66,27 +65,17 @@ public class FileRoot {
                 if(fs!=null){
                     for(File f1:fs){
                         if(f1.isDirectory()){
-                            if(!this.exists(f1.getAbsolutePath())){
+                            if(this.shouldBeInclude(f1.getAbsolutePath())){
                                 frs.add(new FileRoot(f1,FileType.Directory,false));
                             }
                             scalable = true;
-//                            System.out.println(f1.getAbsolutePath());
                         }
                     }
                     if(frs.size()<1){
                         scalable = false;
                     }
                 }
-            }else if(this.ft == FileType.CurrentComputer){
-                this.frs.clear();
-                this.scalable = true;
-                for(char c = 'C';c<='Z';c++){
-                    File f1 = new File(c+":\\");
-                    if(f1.exists()){
-                        frs.add(new FileRoot(f1,FileType.DiskDrive,false));
-                    }
-                }
-            }
+            }else searchCurrentDisk();
         }
     }
     public void sharedConstruct(){
@@ -95,7 +84,7 @@ public class FileRoot {
             File[] fs = file.listFiles();
             if(fs!=null){
                 for(File f1:fs){
-                    if(!this.exists(f1.getAbsolutePath())){
+                    if(this.shouldBeInclude(f1.getAbsolutePath())){
                         frs.add(new FileRoot(f1,FileType.Directory,false));
                     }
                     scalable = true;
@@ -104,17 +93,25 @@ public class FileRoot {
                     scalable = false;
                 }
             }
-        }else if(this.ft == FileType.CurrentComputer){
+        }else {
+            searchCurrentDisk();
+        }
+    }
+
+    private void searchCurrentDisk() {
+        if(this.ft == FileType.CurrentComputer){
             this.frs.clear();
             this.scalable = true;
             for(char c = 'C';c<='Z';c++){
                 File f1 = new File(c+":\\");
                 if(f1.exists()){
                     frs.add(new FileRoot(f1,FileType.DiskDrive,false));
+                    System.out.println(f1);
                 }
             }
         }
     }
+
     public void setExplode(boolean explode){
         this.explode = explode;
         if(explode&&(!hasBeenInit)){

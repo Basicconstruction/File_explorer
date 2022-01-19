@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class NormalItem extends JPanel {
     private File file;
@@ -48,7 +51,12 @@ public class NormalItem extends JPanel {
         }else if(new EnhancedFile(this.file).matchFileType()== FileType.DiskDrive){
             icon = new ImageIcon(FileIcon.diskDrive);
         }else{
-            icon = new ImageIcon(FileIcon.text);
+            EnhancedFile en = new EnhancedFile(this.file);
+            if(en.matchFileType()!=FileType.Image){
+                icon = new ImageIcon(en.matchFileIconPath(en.matchFileType()));
+            }else{
+                icon = new ImageIcon(this.file.getAbsolutePath());
+            }
         }
         iconLabel = new JLabel(icon);
         iconLabel.setBounds(9,10,90,73);
@@ -59,7 +67,30 @@ public class NormalItem extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+                if(NormalItem.this.file.isDirectory()){
+                    NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+                }else{
+                    if(NormalItem.this.file.getAbsolutePath().charAt(1)==':'&&(!NormalItem.this.file.getAbsolutePath().endsWith(".exe"))){
+                        /*使用默认程序 打开文本文件和图片等。
+                         * */
+                        Desktop dek = Desktop.getDesktop();
+                        if(dek.isSupported(Desktop.Action.OPEN)){
+                            try {
+                                dek.open(new File(NormalItem.this.file.getAbsolutePath()));
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }else{
+                        //运行程序或脚本, 或许要扩展
+                        Runtime rt = Runtime.getRuntime();
+                        try {
+                            Process process = rt.exec(NormalItem.this.file.getAbsolutePath());
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
             }
 
             @Override

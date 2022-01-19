@@ -82,39 +82,46 @@ public class EnhancedFile extends File {
         }
     }
     public FileType matchFileType(){
+        if(this.getAbsolutePath().length()<=3&&this.getAbsolutePath().charAt(1)==':'){
+            return FileType.DiskDrive;
+        }
         if(this.isDirectory()){
             return FileType.Directory;
         }
         String[] images = new String[]{
-                "jpg","jpeg","png","gif"
+                ".jpg",".jpeg",".png",".gif"
         };
         String[] music = new String[]{
-                "mp3"
+                ".mp3"
         };
         String[] video = new String[]{
-                "mp4","wmv"
+                ".mp4",".wmv"
         };
         String[] word = new String[]{
-                "docs","doc"
+                ".docs",".doc"
         };
         String[] excel = new String[]{
-                "xlsx"
+                ".xlsx"
         };
         String[] PPT = new String[]{
-                "ppt","ppts"
+                ".ppt",".ppts"
         };
         String[] pdf = new String[]{
-                "pdf"
+                ".pdf"
         };
         String[] txt = new String[]{
-                "txt","html","css","js","c","cpp","cxx","java"
+                ".txt",".html",".css",".js",".c",".cpp",".cxx",".java"
         };//and on
         String[] adobeE = new String[]{
-                "ps"
+                ".ps"
+        };
+        String[] exe = new String[]{
+                ".exe"
         };
         String ef = "";
         if(this.getName().contains(".")){
-            ef = this.getName().substring(this.getName().lastIndexOf("."));
+            ef = this.getName().substring(this.getName().lastIndexOf(".")).toLowerCase();
+            System.out.println(ef);
             if(in(images,ef)){
                 return FileType.Image;
             }else if(in(music,ef)){
@@ -133,6 +140,8 @@ public class EnhancedFile extends File {
                 return FileType.Txt;
             }else if(in(adobeE,ef)){
                 return FileType.AdobeE;
+            }else if(in(exe,ef)){
+                return FileType.Exe;
             }else{
                 return FileType.Txt;
             }
@@ -147,7 +156,7 @@ public class EnhancedFile extends File {
         }
         return false;
     }
-    public String matchFileIconPath(){
+    public String matchFileIconPath(FileType fileType){
         return switch (this.matchFileType()) {
             case Image -> FileIcon.image;
             case Music -> FileIcon.music;
@@ -162,6 +171,7 @@ public class EnhancedFile extends File {
             case Special -> FileIcon.special;
             case AdobeE -> FileIcon.adobeE;
             case Directory -> FileIcon.directory;
+            case Exe -> FileIcon.exe;
         };
     }
     /**

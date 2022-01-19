@@ -4,12 +4,13 @@ import static FileLiteExplorer.Utils.load;
 
 public class FileIcon {
     public static String image = "iamge.png";
-    public static String music = "iamge.png";
-    public static String video = "iamge.png";
-    public static String word = "iamge.png";
-    public static String excel = "iamge.png";
-    public static String PPT = "iamge.png";
-    public static String pdf = "iamge.png";
+    public static String exe = load+"exe.png";
+    public static String music = load+"music.png";
+    public static String video = load+"video.png";
+    public static String word = load+"word.png";
+    public static String excel = load+"excel.png";
+    public static String PPT = load+"ppt.png";
+    public static String pdf = load+"pdf.png";
     public static String directory = load+"file.png";
     public static String text = load+"txt.png";
     public static String special = "iamge.png";

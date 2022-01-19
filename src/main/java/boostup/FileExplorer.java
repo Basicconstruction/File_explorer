@@ -1,7 +1,10 @@
 package boostup;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
+
+import static FileLiteExplorer.Utils.load;
 
 public class FileExplorer extends JFrame {
 
@@ -17,6 +20,7 @@ public class FileExplorer extends JFrame {
         super();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(defaultWidth+16,defaultHeight);
+        this.setIconImage(new ImageIcon(load+"explorer.png").getImage());
         initComponents();
     }
     public void initComponents() throws FileNotFoundException {

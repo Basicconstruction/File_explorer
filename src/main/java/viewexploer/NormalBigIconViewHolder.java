@@ -61,7 +61,7 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
         setGap();
         ArrayList<FileRoot> frs = fr.getChildFileRoot();
         setPanelSize(width, Math.max(registeringY(frs.size() - 1) + defaultItemHeight, defaultHeight));
-        int i = -1,j = -1;
+        int i = 0,j = 0;
         this.removeAll();
         for(FileRoot f:frs){
             try{
