@@ -9,7 +9,7 @@ public class LocationSearchControl extends JPanel {
     private LocationPanel lop;
     private SearchPanel sp;
     private final int defaultWidth = 930;
-    private final int defaultHeight = 76;
+    private final int defaultHeight = 55;
     private int width;
     private int height;
     private final RelationHandler handler;
@@ -20,8 +20,8 @@ public class LocationSearchControl extends JPanel {
         setSize(defaultWidth, defaultHeight);
         LocationPanel lop = new LocationPanel(this.getHandler());
         SearchPanel sp = new SearchPanel(this.getHandler());
-        lop.setLocation(new Point(10,20));
-        sp.setLocation(new Point(560,20));
+        lop.setLocation(new Point(10,10));
+        sp.setLocation(new Point(560,10));
         setLocationPanel(lop);
         setSearchPanel(sp);
         this.sp = sp;

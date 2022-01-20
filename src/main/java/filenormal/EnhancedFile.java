@@ -1,6 +1,7 @@
 package filenormal;
 
 import Formatter.FloatFormatter;
+import boostup.FileIcon;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -98,7 +99,7 @@ public class EnhancedFile extends File {
                 ".mp4",".wmv"
         };
         String[] word = new String[]{
-                ".docs",".doc"
+                ".docs",".doc",".docx"
         };
         String[] excel = new String[]{
                 ".xlsx"
@@ -110,7 +111,7 @@ public class EnhancedFile extends File {
                 ".pdf"
         };
         String[] txt = new String[]{
-                ".txt",".html",".css",".js",".c",".cpp",".cxx",".java"
+                ".txt",".html",".css",".js",".c",".cpp",".cxx",".java",".htm"
         };//and on
         String[] adobeE = new String[]{
                 ".ps"
@@ -118,10 +119,12 @@ public class EnhancedFile extends File {
         String[] exe = new String[]{
                 ".exe"
         };
+        String[] rar = new String[]{
+                ".rar",".7z",".zip"
+        };
         String ef = "";
         if(this.getName().contains(".")){
             ef = this.getName().substring(this.getName().lastIndexOf(".")).toLowerCase();
-            System.out.println(ef);
             if(in(images,ef)){
                 return FileType.Image;
             }else if(in(music,ef)){
@@ -142,6 +145,8 @@ public class EnhancedFile extends File {
                 return FileType.AdobeE;
             }else if(in(exe,ef)){
                 return FileType.Exe;
+            }else if(in(rar,ef)){
+                return FileType.RAR;
             }else{
                 return FileType.Txt;
             }
@@ -172,6 +177,7 @@ public class EnhancedFile extends File {
             case AdobeE -> FileIcon.adobeE;
             case Directory -> FileIcon.directory;
             case Exe -> FileIcon.exe;
+            case RAR -> FileIcon.rar;
         };
     }
     /**

@@ -106,7 +106,7 @@ public class FileRoot {
                 File f1 = new File(c+":\\");
                 if(f1.exists()){
                     frs.add(new FileRoot(f1,FileType.DiskDrive,false));
-                    System.out.println(f1);
+//                    System.out.println(f1);
                 }
             }
         }

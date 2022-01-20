@@ -16,5 +16,6 @@ public enum FileType {
     AdobeE,
     Special,
     PPT,
-    Exe
+    Exe,
+    RAR
 }

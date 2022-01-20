@@ -1,10 +1,9 @@
 package boostup;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.FileNotFoundException;
 
-import static FileLiteExplorer.Utils.load;
+import static boostup.Utils.load;
 
 public class FileExplorer extends JFrame {
 
@@ -25,5 +24,8 @@ public class FileExplorer extends JFrame {
     }
     public void initComponents() throws FileNotFoundException {
         this.handler = new RelationHandler(this);
+    }
+    public void syncTitlePath(){
+
     }
 }

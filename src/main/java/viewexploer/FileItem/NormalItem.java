@@ -2,7 +2,7 @@ package viewexploer.FileItem;
 
 import FileLiteExplorer.fileroot.FileRoot;
 import filenormal.EnhancedFile;
-import filenormal.FileIcon;
+import boostup.FileIcon;
 import filenormal.FileType;
 import viewexploer.ViewHolder;
 
@@ -12,8 +12,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 public class NormalItem extends JPanel {
     private File file;

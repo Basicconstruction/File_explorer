@@ -1,5 +1,6 @@
 package controller;
 
+import boostup.ApplicationIcon;
 import boostup.RelationHandler;
 
 import javax.swing.*;
@@ -7,12 +8,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
-import static FileLiteExplorer.Utils.load;
+import static boostup.Utils.load;
 
 public class SearchPanel extends JPanel{
     private int width;
@@ -30,8 +27,8 @@ public class SearchPanel extends JPanel{
         int defaultHeight = 36;
         this.setSize(defaultWidth, defaultHeight);
         setLayout(null);
-        search_delete = new JButton(new ImageIcon(load+"search_delete.png"));
-        search_go = new JButton(new ImageIcon(load+"search_go.png"));
+        search_delete = new JButton(new ImageIcon(ApplicationIcon.search_delete));
+        search_go = new JButton(new ImageIcon(ApplicationIcon.search_go));
         search_delete.addActionListener(e->{
             this.search_box.setText("");
         });
@@ -44,7 +41,7 @@ public class SearchPanel extends JPanel{
         add(search_go);
         search_box = new JTextField();
         search_box.setBounds(36,0,324,36);
-        search_icon = new JLabel(new ImageIcon(load+"search_icon.png"));
+        search_icon = new JLabel(new ImageIcon(ApplicationIcon.search_icon));
         search_icon.setBounds(0,0,36,36);
         add(search_icon);
         add(search_box);

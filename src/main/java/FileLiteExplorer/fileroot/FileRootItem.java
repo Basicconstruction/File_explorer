@@ -1,6 +1,8 @@
 package FileLiteExplorer.fileroot;
 
 import FileLiteExplorer.LiteFilePanel;
+import boostup.ApplicationIcon;
+import boostup.FileIcon;
 import filenormal.FileType;
 
 import javax.swing.*;
@@ -8,7 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
 
-import static FileLiteExplorer.Utils.load;
+import static boostup.Utils.load;
 
 public class FileRootItem extends JPanel {
     private static final int offsetFactor = 10;
@@ -28,9 +30,9 @@ public class FileRootItem extends JPanel {
         this.GRADE = GRADE;
         this.componentOrder = componentOrder;
         if(this.fr.explode){
-            bt = new JButton(new ImageIcon(load+"bt2.png"));
+            bt = new JButton(new ImageIcon(ApplicationIcon.bt_expand));
         }else{
-            bt = new JButton(new ImageIcon(load+"bt1.png"));
+            bt = new JButton(new ImageIcon(ApplicationIcon.bt_close));
         }
         label = new JLabel(fr.getName(),JLabel.LEFT);
         initComponent();
@@ -41,9 +43,9 @@ public class FileRootItem extends JPanel {
     }
     public void syncRootItem(){
         if(this.getFileRoot().explode){
-            bt.setIcon(new ImageIcon(load+"bt2.png"));
+            bt.setIcon(new ImageIcon(ApplicationIcon.bt_expand));
         }else{
-            bt.setIcon(new ImageIcon(load+"bt1.png"));
+            bt.setIcon(new ImageIcon(ApplicationIcon.bt_close));
         }
         this.setVisible(true);
     }
@@ -73,11 +75,11 @@ public class FileRootItem extends JPanel {
             this.add(label);
         }
         if(this.getFileRoot().getFileType()== FileType.CurrentComputer){
-            fileIconLabel = new JLabel(new ImageIcon(load+"computer.png"));
+            fileIconLabel = new JLabel(new ImageIcon(FileIcon.currentComputer));
         }else if(this.getFileRoot().getFileType()== FileType.DiskDrive){
-            fileIconLabel = new JLabel(new ImageIcon(load+"disk.png"));
+            fileIconLabel = new JLabel(new ImageIcon(FileIcon.diskDrive));
         }else{
-            fileIconLabel = new JLabel(new ImageIcon(load+"file.png"));
+            fileIconLabel = new JLabel(new ImageIcon(FileIcon.directory));
         }
         this.add(fileIconLabel);
         fileIconLabel.setBounds(30,4,24,20);
