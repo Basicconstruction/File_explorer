@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="File_explorer:jar2">
+    <output-path>$PROJECT_DIR$/out/artifacts/File_explorer_jar2</output-path>
+    <root id="root">
+      <element id="archive" name="File_explorer.jar">
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+        </element>
+        <element id="module-output" name="File_explorer" />
+      </element>
+    </root>
+  </artifact>
+</component>
