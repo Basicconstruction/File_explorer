@@ -3,6 +3,7 @@ package boostup;
 import javax.swing.*;
 import java.io.FileNotFoundException;
 
+import static boostup.ApplicationIcon.appIcon;
 import static boostup.Utils.load;
 
 public class FileExplorer extends JFrame {
@@ -19,7 +20,8 @@ public class FileExplorer extends JFrame {
         super();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(defaultWidth+16,defaultHeight);
-        this.setIconImage(new ImageIcon(load+"explorer.png").getImage());
+        System.out.println(appIcon);
+        this.setIconImage(new ImageIcon(appIcon).getImage());
         initComponents();
     }
     public void initComponents() throws FileNotFoundException {
