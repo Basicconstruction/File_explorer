@@ -1,7 +1,7 @@
 package boostup;
 
-import FileLiteExplorer.LiteFileExplorer;
-import FileLiteExplorer.LiteFilePanel;
+import fileLiteExplorer.LiteFileExplorer;
+import fileLiteExplorer.LiteFilePanel;
 import controller.LocationPanel;
 import controller.LocationSearchControl;
 import controller.SearchPanel;
@@ -9,12 +9,10 @@ import direction.DirectionPanel;
 import toolskit.ToolsKit;
 import viewexploer.LiteViewExplorer;
 import viewexploer.NormalBigIconViewHolder;
-import viewexploer.ViewHolder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.nio.file.DirectoryStream;
 
 public class RelationHandler {
     private final FileExplorer fileExplorer;

@@ -1,7 +1,6 @@
 package controller;
 
-import FileLiteExplorer.fileroot.FileRoot;
-import boostup.FileExplorer;
+import fileLiteExplorer.fileroot.FileRoot;
 import boostup.RelationHandler;
 import filenormal.FileType;
 import viewexploer.NormalBigIconViewHolder;

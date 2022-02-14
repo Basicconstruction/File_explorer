@@ -1,6 +1,6 @@
 package viewexploer.FileItem;
 
-import FileLiteExplorer.fileroot.FileRoot;
+import fileLiteExplorer.fileroot.FileRoot;
 import filenormal.EnhancedFile;
 import boostup.FileIcon;
 import filenormal.FileType;
@@ -14,13 +14,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class NormalItem extends JPanel {
-    private File file;
+    private final File file;
     private String name;
     private JLabel iconLabel;
     private JLabel textLabel;
     private final static int width = 108;
     private final static int height = 118;
-    private ViewHolder viewHolder;
+    private final ViewHolder viewHolder;
+    private Thread dkThread;
+    volatile boolean b1,b2;
+    private boolean select = false;
     public NormalItem(ViewHolder viewHolder,File file){
         super();
         this.file = file;
@@ -34,6 +37,48 @@ public class NormalItem extends JPanel {
         setItemSize();
         this.viewHolder = viewHolder;
         initComponents();
+    }
+    public Thread getDkThread(){
+        dkThread = new Thread(() -> {
+            long t = System.currentTimeMillis();
+            while(System.currentTimeMillis()-t<1000){
+                if(b1&&b2){
+                    if(NormalItem.this.file.isDirectory()){
+                        NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+                    }else{
+                        if(NormalItem.this.file.getAbsolutePath().charAt(1)==':'&&(!NormalItem.this.file.getAbsolutePath().endsWith(".exe"))){
+                            /*使用默认程序 打开文本文件和图片等。
+                             * */
+                            Desktop dek = Desktop.getDesktop();
+                            if(dek.isSupported(Desktop.Action.OPEN)){
+                                try {
+                                    dek.open(new File(NormalItem.this.file.getAbsolutePath()));
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+                        }else{
+                            //运行程序或脚本, 或许要扩展
+                            Runtime rt = Runtime.getRuntime();
+                            try {
+                                Process process = rt.exec(NormalItem.this.file.getAbsolutePath());
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                    break;
+                }
+                try{
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            b1 = false;
+            b2 = false;
+        });
+        return dkThread;
     }
     public void initComponents(){
         setLayout(null);
@@ -65,29 +110,13 @@ public class NormalItem extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(NormalItem.this.file.isDirectory()){
-                    NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+                if(!b1){
+                    b1 = true;
+                    getDkThread().start();
+//                    NormalItem.this.getViewHolder().repaintView(NormalItem.this.getViewHolder().getPaintPath());
+                    NormalItem.this.setSelected();
                 }else{
-                    if(NormalItem.this.file.getAbsolutePath().charAt(1)==':'&&(!NormalItem.this.file.getAbsolutePath().endsWith(".exe"))){
-                        /*使用默认程序 打开文本文件和图片等。
-                         * */
-                        Desktop dek = Desktop.getDesktop();
-                        if(dek.isSupported(Desktop.Action.OPEN)){
-                            try {
-                                dek.open(new File(NormalItem.this.file.getAbsolutePath()));
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }else{
-                        //运行程序或脚本, 或许要扩展
-                        Runtime rt = Runtime.getRuntime();
-                        try {
-                            Process process = rt.exec(NormalItem.this.file.getAbsolutePath());
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
+                    b2 = true;
                 }
             }
 
@@ -118,5 +147,12 @@ public class NormalItem extends JPanel {
     }
     public ViewHolder getViewHolder() {
         return this.viewHolder;
+    }
+    public void setSelected(){
+        this.setBackground(Color.GRAY);
+    }
+    public void cancelSelected(){
+        //n c
+        this.setBackground(getViewHolder().getParentPane().getBackground());
     }
 }

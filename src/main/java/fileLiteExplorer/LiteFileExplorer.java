@@ -1,8 +1,6 @@
-package FileLiteExplorer;
+package fileLiteExplorer;
 
-import boostup.FileExplorer;
 import boostup.RelationHandler;
-import viewexploer.NormalBigIconViewHolder;
 
 import javax.swing.*;
 import java.awt.*;

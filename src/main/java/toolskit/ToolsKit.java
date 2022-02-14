@@ -4,10 +4,7 @@ import boostup.ApplicationIcon;
 import boostup.RelationHandler;
 
 import javax.swing.*;
-
 import java.awt.*;
-
-import static boostup.Utils.load;
 
 public class ToolsKit extends JPanel {
     private RelationHandler handler;

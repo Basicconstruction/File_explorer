@@ -1,10 +1,7 @@
 package viewexploer;
 
-import FileLiteExplorer.fileroot.FileRoot;
-import boostup.FileExplorer;
+import fileLiteExplorer.fileroot.FileRoot;
 import boostup.RelationHandler;
-import filenormal.EnhancedFile;
-import filenormal.FileType;
 import viewexploer.FileItem.NormalItem;
 
 import javax.swing.*;
@@ -138,7 +135,6 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder{
     public JScrollPane getParentPane() {
         return this.jsp;
     }
-
 
     public void setPanelSize(int width_param,int height_param){
         width = width_param;

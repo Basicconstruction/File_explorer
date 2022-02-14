@@ -1,16 +1,13 @@
-package FileLiteExplorer;
+package fileLiteExplorer;
 
-import FileLiteExplorer.fileroot.FileRoot;
-import FileLiteExplorer.fileroot.FileRootItem;
+import fileLiteExplorer.fileroot.FileRoot;
+import fileLiteExplorer.fileroot.FileRootItem;
 import boostup.RelationHandler;
 import filenormal.FileType;
 
 import javax.swing.*;
-import javax.swing.text.View;
 import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class LiteFilePanel extends JPanel {

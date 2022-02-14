@@ -1,6 +1,6 @@
 package viewexploer;
 
-import FileLiteExplorer.fileroot.FileRoot;
+import fileLiteExplorer.fileroot.FileRoot;
 
 import javax.swing.*;
 import java.io.File;

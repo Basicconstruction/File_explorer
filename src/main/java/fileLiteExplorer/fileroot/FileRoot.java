@@ -1,4 +1,4 @@
-package FileLiteExplorer.fileroot;
+package fileLiteExplorer.fileroot;
 
 import filenormal.FileType;
 

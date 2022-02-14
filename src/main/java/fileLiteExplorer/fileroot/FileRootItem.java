@@ -1,6 +1,6 @@
-package FileLiteExplorer.fileroot;
+package fileLiteExplorer.fileroot;
 
-import FileLiteExplorer.LiteFilePanel;
+import fileLiteExplorer.LiteFilePanel;
 import boostup.ApplicationIcon;
 import boostup.FileIcon;
 import filenormal.FileType;
@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
-
-import static boostup.Utils.load;
 
 public class FileRootItem extends JPanel {
     private static final int offsetFactor = 10;
