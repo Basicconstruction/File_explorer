@@ -12,8 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class NormalItem extends JPanel {
+public class NormalItem extends JPanel implements Selectable{
     private final File file;
     private String name;
     private JLabel iconLabel;
@@ -113,11 +114,15 @@ public class NormalItem extends JPanel {
                 if(!b1){
                     b1 = true;
                     getDkThread().start();
-//                    NormalItem.this.getViewHolder().repaintView(NormalItem.this.getViewHolder().getPaintPath());
-                    NormalItem.this.setSelected();
+                    ArrayList<NormalItem> normalItems = NormalItem.this.getViewHolder().getNormalItems();
+                    for(NormalItem nor:normalItems){
+                        nor.setSelect(false);
+                    }
+                    NormalItem.this.setSelect(true);
                 }else{
                     b2 = true;
                 }
+                System.out.println("click child item");
             }
 
             @Override
@@ -148,11 +153,34 @@ public class NormalItem extends JPanel {
     public ViewHolder getViewHolder() {
         return this.viewHolder;
     }
-    public void setSelected(){
-        this.setBackground(Color.GRAY);
+
+    @Override
+    public void setSelect(boolean select) {
+        this.select = select;
+        selectWork(select);
     }
-    public void cancelSelected(){
-        //n c
-        this.setBackground(getViewHolder().getParentPane().getBackground());
+
+    @Override
+    public boolean getSelect() {
+        return select;
+    }
+
+    @Override
+    public void setParentPanel(Component component) {
+
+    }
+
+    @Override
+    public Component getParentPanel() {
+        return null;
+    }
+
+    @Override
+    public void selectWork(boolean select) {
+        if(select){
+            this.setBackground(new Color(204,232,255));
+        }else{
+            this.setBackground(getViewHolder().getParentPane().getBackground());
+        }
     }
 }
