@@ -236,6 +236,5 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         p2 = null;
         getPaint().setBounds(0,0,0,0);
         this.repaint();
-//        this.setChildItemSelected(false);
     }
 }
