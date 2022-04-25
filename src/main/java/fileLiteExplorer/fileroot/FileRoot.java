@@ -5,6 +5,7 @@ import filenormal.FileType;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FileRoot {
     public FileType ft;
@@ -27,8 +28,13 @@ public class FileRoot {
         hasBeenInit = initializedWhenConstruct;
     }
     public FileRoot(String path,FileType ft){
-        this.file = new File(path);
-        this.ft = ft;
+        if(Objects.equals(path, "计算机")){
+            this.file = null;
+            this.ft = FileType.CurrentComputer;
+        }else{
+            this.file = new File(path);
+            this.ft = ft;
+        }
         sharedConstruct();
         hasBeenInit = true;
     }
@@ -57,6 +63,9 @@ public class FileRoot {
         }
         return true;
     }
+    /**
+     * 当前FileRoot是一个盘符或者文件夹时，在获取这个FileRoot时即初始化其子FileRoot。
+     * **/
     public void sharedConstruct(boolean initialized){
         if(initialized){
             hasBeenInit = true;
@@ -130,15 +139,20 @@ public class FileRoot {
     public String getAbsolutePath() throws FileNotFoundException {
         if(file!=null){
             return this.file.getAbsolutePath();
+        }else{
+            return "计算机";
         }
-        throw new FileNotFoundException(this.file.getAbsolutePath());
     }
     public static FileType getFileType(String file){
-        if(file.length()<=3&&file.charAt(1)==':'){
+//        System.out.println(file+" xtype length "+file.length()+" charAt(1) "+file.charAt(1));
+        if(file.length()<=4&&file.charAt(1)==':'){
+//            System.out.println("DISK");
             return FileType.DiskDrive;
         }else if(file.length()<=4){
+//            System.out.println("THIS COMPUTER");
             return FileType.CurrentComputer;
         }else{
+//            System.out.println(file.toUpperCase());
             if(new File(file).isDirectory()){
                 return FileType.Directory;
             }else{
@@ -161,4 +175,16 @@ public class FileRoot {
         this.fri = fri;
     }
 
+    @Override
+    public String toString() {
+        return "FileRoot{" +
+                "ft=" + ft +
+                ", file=" + file +
+                ", explode=" + explode +
+                ", scalable=" + scalable +
+                ", hasBeenInit=" + hasBeenInit +
+                ", fri=" + fri +
+                ", frs=" + frs +
+                '}';
+    }
 }

@@ -9,20 +9,15 @@ import java.awt.*;
  * 可以添加在可改变大小的组件内
  * */
 public class LiteFileExplorer extends JScrollPane{
-    private final RelationHandler handler;
-    public RelationHandler getHandler() {
-        return handler;
-    }
 
     public LiteFilePanel child;//向上转型,不是必须的
     public int width;
     public int height;
     public final static int defaultWidth = 160;
     public final static int defaultHeight = 530;
-    public LiteFileExplorer(RelationHandler handler,LiteFilePanel child){
+    public LiteFileExplorer(LiteFilePanel child){
         super(child,ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        this.handler = handler;
         super.setSize(defaultWidth,defaultHeight);
         super.setPreferredSize(new Dimension(defaultWidth,defaultHeight));
         this.width = defaultWidth;

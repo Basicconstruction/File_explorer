@@ -1,6 +1,7 @@
 package controller;
 
 import boostup.ApplicationIcon;
+import boostup.FileExplorer;
 import boostup.RelationHandler;
 
 import javax.swing.*;
@@ -14,15 +15,13 @@ import static boostup.Utils.load;
 public class SearchPanel extends JPanel{
     private int width;
     private int height;
-    private final RelationHandler handler;
     private LocationSearchControl lsc;
     private JTextField search_box;
     private JLabel search_icon;
     private JButton search_delete;
     private JButton search_go;
-    public SearchPanel(RelationHandler handler){
+    public SearchPanel(){
         super();
-        this.handler = handler;
         int defaultWidth = 364;
         int defaultHeight = 36;
         this.setSize(defaultWidth, defaultHeight);
@@ -33,7 +32,7 @@ public class SearchPanel extends JPanel{
             this.search_box.setText("");
         });
         search_go.addActionListener(e->{
-            SearchPanel.this.getHandler().getLocationPanel().syncViewPort("virtual://"+"search="+this.search_box.getText());
+            FileExplorer.getHandler().getLocationPanel().syncViewPort("virtual://"+"search="+this.search_box.getText());
             //注释:这里埋了一个坑,需要为该操作编写特定的查询算法,最好是多线程查询,影响 LocationPanel的高级设计和NormalViewHolder(简写)的
             //设计
         });
@@ -87,9 +86,6 @@ public class SearchPanel extends JPanel{
         search_delete.setBounds(364,0,0,0);
         search_go.setBounds(364,0,0,0);
         this.repaint();
-    }
-    private RelationHandler getHandler() {
-        return handler;
     }
     public LocationSearchControl getLocationSearchControl() {
         return lsc;

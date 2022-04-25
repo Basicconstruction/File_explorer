@@ -1,5 +1,6 @@
 package fileLiteExplorer;
 
+import boostup.FileExplorer;
 import fileLiteExplorer.fileroot.FileRoot;
 import fileLiteExplorer.fileroot.FileRootItem;
 import boostup.RelationHandler;
@@ -11,11 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class LiteFilePanel extends JPanel {
-    private final RelationHandler handler;
 
-    public RelationHandler getHandler() {
-        return handler;
-    }
     public LiteFileExplorer parent;
     private FileRoot focus;
     public int width = 0;
@@ -23,9 +20,8 @@ public class LiteFilePanel extends JPanel {
     private final FileRoot froot;
     private final FileRootItem root;
     private int defaultHeight = 0;
-    public LiteFilePanel(RelationHandler handler) throws FileNotFoundException {
+    public LiteFilePanel() throws FileNotFoundException {
         super();
-        this.handler = handler;
         froot = new FileRoot("计算机", FileType.CurrentComputer,true);
         root = new FileRootItem(froot,this,0,0);
         root.getFileRoot().setExplode(true);
@@ -100,9 +96,6 @@ public class LiteFilePanel extends JPanel {
             }
         }
 
-    }
-    public void syncLocationPanel(String path){
-        this.getHandler().getLocationPanel().syncViewPort(path);
     }
     public LiteFileExplorer getParentPane(){
         return this.parent;

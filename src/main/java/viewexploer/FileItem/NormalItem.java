@@ -1,23 +1,29 @@
 package viewexploer.FileItem;
 
+import boostup.FileExplorer;
 import fileLiteExplorer.fileroot.FileRoot;
 import filenormal.EnhancedFile;
 import boostup.FileIcon;
 import filenormal.FileType;
+import toolskit.BufferedPhoto;
 import viewexploer.ViewHolder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * 默认的文件展示形式，实现了可被选择接口
+ * **/
 public class NormalItem extends JPanel implements Selectable{
     private final File file;
     private String name;
-    private JLabel iconLabel;
+    private BufferedPhoto iconLabel;
     private JLabel textLabel;
     private final static int width = 108;
     private final static int height = 118;
@@ -39,13 +45,19 @@ public class NormalItem extends JPanel implements Selectable{
         this.viewHolder = viewHolder;
         initComponents();
     }
+    /**
+     * 识别双击，并运行可执行文件或者打开文件夹
+     * **/
     public Thread getDkThread(){
         dkThread = new Thread(() -> {
             long t = System.currentTimeMillis();
             while(System.currentTimeMillis()-t<1000){
                 if(b1&&b2){
                     if(NormalItem.this.file.isDirectory()){
-                        NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+//                        NormalItem.this.getViewHolder().notifyViewChanged(NormalItem.this.file.getAbsolutePath());
+                        System.out.println("change view to "+NormalItem.this.file.getAbsolutePath()+" by" +
+                                " double click NormalItem");
+                        FileExplorer.getHandler().getLocationPanel().syncViewPort(NormalItem.this.file.getAbsolutePath());
                     }else{
                         if(NormalItem.this.file.getAbsolutePath().charAt(1)==':'&&(!NormalItem.this.file.getAbsolutePath().endsWith(".exe"))){
                             /*使用默认程序 打开文本文件和图片等。
@@ -68,6 +80,7 @@ public class NormalItem extends JPanel implements Selectable{
                             }
                         }
                     }
+                    NormalItem.this.dkThread.interrupt();
                     break;
                 }
                 try{
@@ -89,28 +102,36 @@ public class NormalItem extends JPanel implements Selectable{
             default -> file.getName();
         };
         textLabel = new JLabel(name,JLabel.CENTER);
-        ImageIcon icon;
+        BufferedPhoto bp = null;
         if(new EnhancedFile(this.file).matchFileType()== FileType.Directory){
-            icon = new ImageIcon(FileIcon.directory);
+            bp = new BufferedPhoto(FileIcon.directory);
         }else if(new EnhancedFile(this.file).matchFileType()== FileType.DiskDrive){
-            icon = new ImageIcon(FileIcon.diskDrive);
+            bp = new BufferedPhoto(FileIcon.diskDrive);
         }else{
             EnhancedFile en = new EnhancedFile(this.file);
             if(en.matchFileType()!=FileType.Image){
-                icon = new ImageIcon(en.matchFileIconPath(en.matchFileType()));
+//                System.out.println(en.matchFileIconPath(en.matchFileType()));
+                bp = new BufferedPhoto(en.matchFileIconPath(en.matchFileType()));
             }else{
-                icon = new ImageIcon(this.file.getAbsolutePath());
+//                System.out.println(file.getAbsolutePath());
+                bp = new BufferedPhoto(this.file.getAbsolutePath());
             }
         }
-        iconLabel = new JLabel(icon);
+
+        if(bp==null){
+            bp = new BufferedPhoto(FileIcon.text);
+        }
+        bp.setImageSize(90,73);
+        iconLabel = bp;
         iconLabel.setBounds(9,10,90,73);
         textLabel.setBounds(9,83,90,30);
         add(iconLabel);
         add(textLabel);
-        this.addMouseListener(new MouseListener(){
+        this.addMouseListener(new MouseAdapter(){
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                //选择处理，当单次点击时，取消其他文件的选中，并将本文件选中
                 if(!b1){
                     b1 = true;
                     getDkThread().start();
@@ -122,29 +143,11 @@ public class NormalItem extends JPanel implements Selectable{
                 }else{
                     b2 = true;
                 }
-                System.out.println("click child item");
+                System.out.println("click child item"+NormalItem.this);
             }
 
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
         });
+        this.repaint();
     }
     public void setItemSize(){
         super.setPreferredSize(new Dimension(width,height));
@@ -175,6 +178,9 @@ public class NormalItem extends JPanel implements Selectable{
         return null;
     }
 
+    /**
+     * 选中与否的背景变化
+     * **/
     @Override
     public void selectWork(boolean select) {
         if(select){
@@ -182,5 +188,11 @@ public class NormalItem extends JPanel implements Selectable{
         }else{
             this.setBackground(getViewHolder().getParentPane().getBackground());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "NormalItem{" +
+                "file=" + file;
     }
 }

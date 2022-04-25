@@ -1,5 +1,6 @@
 package fileLiteExplorer.fileroot;
 
+import boostup.FileExplorer;
 import fileLiteExplorer.LiteFilePanel;
 import boostup.ApplicationIcon;
 import boostup.FileIcon;
@@ -81,39 +82,20 @@ public class FileRootItem extends JPanel {
         }
         this.add(fileIconLabel);
         fileIconLabel.setBounds(30,4,24,20);
-        MouseListener ml = new MouseListener(){
+        MouseListener ml = new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
                 FileRootItem.this.setFocused();
                 try {
+                    System.out.println("CHANGE BY LEFT");
                     if(FileRootItem.this.getFileRoot().getFileType()== FileType.CurrentComputer){
-                        FileRootItem.this.fp.syncLocationPanel("计算机");
+                        FileExplorer.getHandler().getLocationPanel().syncViewPort("计算机");
                     }else{
-                        FileRootItem.this.fp.syncLocationPanel(FileRootItem.this.fr.getAbsolutePath());
+                        FileExplorer.getHandler().getLocationPanel().syncViewPort(FileRootItem.this.fr.getAbsolutePath());
                     }
                 } catch (FileNotFoundException ex) {
                     ex.printStackTrace();
                 }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
             }
         }   ;
         label.addMouseListener(ml);
@@ -131,5 +113,20 @@ public class FileRootItem extends JPanel {
     }
     private void revertFocused(){
         this.setBackground(Color.WHITE);
+    }
+
+    @Override
+    public String toString() {
+        return "FileRootItem{" +
+                "width=" + width +
+                ", height=" + height +
+                ", bt=" + bt +
+                ", fileIconLabel=" + fileIconLabel +
+                ", label=" + label +
+                ", fr=" + fr +
+                ", fp=" + fp +
+                ", GRADE=" + GRADE +
+                ", componentOrder=" + componentOrder +
+                '}';
     }
 }

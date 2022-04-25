@@ -1,24 +1,17 @@
 package direction;
 
 import boostup.ApplicationIcon;
-import boostup.RelationHandler;
-
 import javax.swing.*;
-
 import java.awt.*;
-
-import static boostup.Utils.load;
 
 public class DirectionPanel extends JPanel {
 
-    private RelationHandler handler;
     private JButton back;
     private JButton forward;
     private JButton latest;
     private JButton upBack;
-    public DirectionPanel(RelationHandler handler){
+    public DirectionPanel(){
         super();
-        this.handler = handler;
         this.setLayout(new GridLayout(1,4));
         this.setSize(132,34);
         this.setPreferredSize(new Dimension(132,34));
@@ -34,10 +27,24 @@ public class DirectionPanel extends JPanel {
         add(latest);
         add(upBack);
     }
-    public RelationHandler getHandler() {
-        return handler;
+    public void addListeners(){
+        addBackListener();
+        addForwardListener();
+        addLatestListener();
+        addUpBackListener();
     }
+    private void addBackListener(){
 
+    }
+    private void addForwardListener(){
+
+    }
+    private void addLatestListener(){
+
+    }
+    private void addUpBackListener(){
+
+    }
     public JButton getBack() {
         return back;
     }

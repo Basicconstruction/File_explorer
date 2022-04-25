@@ -21,7 +21,7 @@ public class RelationHandler {
     private LocationSearchControl locationSearchControl;
     private LiteFileExplorer liteFileExplorer;
     private LiteFilePanel liteFilePanel;
-    private NormalBigIconViewHolder normalBigIconViewHolder;
+    private volatile NormalBigIconViewHolder normalBigIconViewHolder;
     private LiteViewExplorer liteViewExplorer;
     private DirectionPanel directionPanel;
     private ToolsKit toolsKit;
@@ -31,15 +31,19 @@ public class RelationHandler {
     }
 
     public void initLayout() throws FileNotFoundException {
-        LiteFilePanel liteFilePanel = new LiteFilePanel(this);
-        LiteFileExplorer liteFileExplorer = new LiteFileExplorer(this,liteFilePanel);
+        LiteFilePanel liteFilePanel = new LiteFilePanel();
+        LiteFileExplorer liteFileExplorer = new LiteFileExplorer(liteFilePanel);
 
+        LocationSearchControl locationSearchControl = new LocationSearchControl();
+
+        this.searchPanel = locationSearchControl.getSp();
+        this.locationPanel = locationSearchControl.getLop();
         NormalBigIconViewHolder viewHolder = new NormalBigIconViewHolder(this);
-        LiteViewExplorer liteViewExplorer = new LiteViewExplorer(this,viewHolder);
+        this.normalBigIconViewHolder = viewHolder;
 
-        LocationSearchControl locationSearchControl = new LocationSearchControl(this);
+        LiteViewExplorer liteViewExplorer = new LiteViewExplorer(viewHolder);
 
-        DirectionPanel directionPanel = new DirectionPanel(this);
+        DirectionPanel directionPanel = new DirectionPanel();
 
         ToolsKit toolsKit = new ToolsKit(this);
         toolsKit.setLocation(0,0);
@@ -52,10 +56,6 @@ public class RelationHandler {
         this.liteFileExplorer = liteFileExplorer;
         this.locationSearchControl = locationSearchControl;
         this.liteFilePanel = liteFilePanel;
-        this.normalBigIconViewHolder = viewHolder;
-        this.liteViewExplorer = liteViewExplorer;
-        this.searchPanel = locationSearchControl.getSearchPanel();
-        this.locationPanel = locationSearchControl.getLocationPanel();
         this.directionPanel = directionPanel;
         this.toolsKit = toolsKit;
 

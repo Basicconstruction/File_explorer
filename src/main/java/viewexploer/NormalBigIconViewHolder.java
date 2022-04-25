@@ -1,7 +1,8 @@
 package viewexploer;
 
-import fileLiteExplorer.fileroot.FileRoot;
+import boostup.FileExplorer;
 import boostup.RelationHandler;
+import fileLiteExplorer.fileroot.FileRoot;
 import viewexploer.FileItem.NormalItem;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static viewexploer.LiteViewExplorer.defaultHeight;
 
@@ -25,24 +27,19 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
     private JScrollPane jsp;
     public final int defaultItemWidth = 108;
     public final int defaultItemHeight = 118;
-    private final RelationHandler handler;
     private final ArrayList<NormalItem> normalItems = new ArrayList<>();
     private Point p;
     private Point p2;
     private final JPanel paint = new JPanel();
-
-    public RelationHandler getHandler() {
-        return handler;
-    }
-
+    private RelationHandler handler;
     public NormalBigIconViewHolder(RelationHandler handler){
         super();
         this.handler = handler;
         sharedInitAction();
+        notifyViewChanged("计算机");
     }
-    public NormalBigIconViewHolder(RelationHandler handler,String path){
+    public NormalBigIconViewHolder(String path){
         super();
-        this.handler = handler;
         sharedInitAction();
     }
     private void sharedInitAction(){
@@ -80,6 +77,7 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         this.addMouseListener(this);
     }
     public void repaintView(String path) {
+//        System.out.println(path);
         repaintView(new FileRoot(path,FileRoot.getFileType(path)));
     }
     public int getHeight() {
@@ -89,7 +87,11 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
     @Override
     public void notifyViewChanged(String path) {
         repaintView(path);
-        this.getHandler().getLocationPanel().syncViewPort(path,false);
+        getHandler().getLocationPanel().syncViewPort(path,false);
+    }
+
+    public RelationHandler getHandler() {
+        return handler;
     }
 
     @Override
@@ -108,24 +110,39 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+//        System.out.println(fr);
+        try{
+            System.out.println("PAINT "+fr.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         setGap();
         ArrayList<FileRoot> frs = fr.getChildFileRoot();
         setPanelSize(width, Math.max(registeringY(frs.size() - 1) + defaultItemHeight, defaultHeight));
         int i = 0,j = 0;
-        for(NormalItem ni:getNormalItems()){
-            this.remove(ni);
+        for(int k=0;k<this.getComponents().length;k++){
+            System.out.println(k+" "+this.getComponents()[k]);
         }
+        removeWhereIndexBiggerThan(0);
+        System.out.println(getComponents().length+" BEFORE PAINTING");
+//        for(NormalItem ni:normalItems){
+//            this.remove(ni);//移除Ui组件(NormalItem)
+//        }
         normalItems.clear();//清空陈旧数据
+//        System.out.println(fr+""+frs);
         for(FileRoot f:frs){
             try{
+//                System.out.println(f);
                 NormalItem ni = new NormalItem(this,f.getAbsolutePath());
                 ni.setLocation(new Point(registeringX(i++),registeringY(j++)));
                 add(ni);
                 normalItems.add(ni);//保存当前视图的元素引用
+//                System.out.println(ni);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
+        System.out.println(normalItems.size());
         this.repaint();
         if( this.getParentPane()!=null){
             ((LiteViewExplorer)( this.getParentPane())).syncFlowSpeed();
@@ -133,6 +150,11 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         }
     }
 
+    public void removeWhereIndexBiggerThan(int index){
+        while(this.getComponents().length>index+1){
+            this.remove(this.getComponent(1));
+        }
+    }
     public void repaintView(File f) {
         repaintView(f.getAbsolutePath());
     }
@@ -160,15 +182,12 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         return defaultItemHeight;
     }
 
-
-
     public int getParentWidth() {
         if(this.getParentPane()==null){
             return LiteViewExplorer.defaultWidth;
         }
         return this.getParentPane().getWidth();
     }
-
 
     public int getParentHeight() {
         if(this.getParentPane()==null){
@@ -185,7 +204,6 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
 
     public void setParentPane(JScrollPane jsp) {
         this.jsp = jsp;
-        repaintView("计算机");
     }
 
 
@@ -220,8 +238,18 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        System.out.println("COMPONENTS SIZE"+getComponents().length+" NORMALIZES SIZE"+ normalItems.size());
+        System.out.println("VIEWHOLDER PAINT PATH"+this.getPaintPath());
+//        if (normalItems.size() == 0) {
+//            notifyViewChanged(paintPath);
+//        }
+//        this.repaint();
+//        for(int i = 0;i<normalItems.size();i++){
+//            System.out.println(i+" "+normalItems.get(i));
+//        }
         setChildItemSelected(false);
         System.out.println("click jpanel");
+        System.out.println("LOCATION SRC"+FileExplorer.getHandler().getLocationPanel().getExplorerPath().getText());
     }
 
     @Override
@@ -235,6 +263,23 @@ public class NormalBigIconViewHolder extends JPanel implements ViewHolder,Pickab
         p = null;
         p2 = null;
         getPaint().setBounds(0,0,0,0);
-        this.repaint();
+//        this.repaint();
+    }
+
+    @Override
+    public String toString() {
+        return "NormalBigIconViewHolder{" +
+                "x_gap=" + x_gap +
+                ", c=" + c +
+                ", width=" + width +
+                ", height=" + height +
+                ", paintPath='" + paintPath + '\'' +
+                ", jsp=" + jsp +
+                ", defaultItemWidth=" + defaultItemWidth +
+                ", defaultItemHeight=" + defaultItemHeight +
+                ", p=" + p +
+                ", p2=" + p2 +
+                ", paint=" + paint +
+                '}';
     }
 }

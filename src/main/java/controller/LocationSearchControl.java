@@ -6,50 +6,32 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LocationSearchControl extends JPanel {
-    private LocationPanel lop;
-    private SearchPanel sp;
     private final int defaultWidth = 930;
     private final int defaultHeight = 55;
     private int width;
     private int height;
-    private final RelationHandler handler;
-    public LocationSearchControl(RelationHandler handler){
+    private LocationPanel lop;
+    private SearchPanel sp;
+    public LocationSearchControl(){
         super();
         setLayout(null);
-        this.handler = handler;
         setSize(defaultWidth, defaultHeight);
-        LocationPanel lop = new LocationPanel(this.getHandler());
-        SearchPanel sp = new SearchPanel(this.getHandler());
+        lop = new LocationPanel();
+        sp = new SearchPanel();
         lop.setLocation(new Point(10,10));
         sp.setLocation(new Point(560,10));
-        setLocationPanel(lop);
-        setSearchPanel(sp);
-        this.sp = sp;
         add(lop);
         add(sp);
     }
 
-    private RelationHandler getHandler() {
-        return handler;
-    }
-
-    public LocationPanel getLocationPanel() {
+    public LocationPanel getLop() {
         return lop;
     }
 
-    public void setLocationPanel(LocationPanel lop) {
-        this.lop = lop;
-        this.lop.setLocationSearchControl(this);
-    }
-
-    public SearchPanel getSearchPanel() {
+    public SearchPanel getSp() {
         return sp;
     }
 
-    public void setSearchPanel(SearchPanel sp) {
-        this.sp = sp;
-        this.sp.setLocationSearchControl(this);
-    }
     @Override
     public void setSize(int width_param,int height_param){
         width = width_param;
